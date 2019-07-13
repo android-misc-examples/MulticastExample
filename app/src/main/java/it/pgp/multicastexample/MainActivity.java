@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
         instance = this;
         setContentView(R.layout.activity_main);
         messageView = findViewById(R.id.messageView);
-        new MulticastReceiver().start();
+//        new MulticastReceiver().start();
+        new UDPBroadcastReceiver().start();
     }
 }
