@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import it.pgp.multicastexample.receiver.GenericReceiver;
+import it.pgp.multicastexample.receiver.MulticastReceiver;
 import it.pgp.multicastexample.sender.GenericSender;
 import it.pgp.multicastexample.sender.MulticastSender;
 

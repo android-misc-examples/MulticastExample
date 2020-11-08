@@ -1,4 +1,4 @@
-package it.pgp.multicastexample;
+package it.pgp.multicastexample.receiver;
 
 import android.util.Log;
 
