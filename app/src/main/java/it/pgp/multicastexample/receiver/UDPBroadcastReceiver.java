@@ -1,6 +1,8 @@
 package it.pgp.multicastexample.receiver;
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -10,8 +12,8 @@ import java.nio.charset.StandardCharsets;
 
 public class UDPBroadcastReceiver extends GenericReceiver {
 
-    protected UDPBroadcastReceiver() throws SocketException {
-        super(new DatagramSocket(11111));
+    public UDPBroadcastReceiver(Activity activity, ArrayAdapter<String> adapter) throws SocketException {
+        super(new DatagramSocket(11111),activity,adapter);
     }
 
     @Override
@@ -20,7 +22,10 @@ public class UDPBroadcastReceiver extends GenericReceiver {
         socket.receive(data);
         String received = new String(data.getData(), data.getOffset(), data.getLength(), StandardCharsets.UTF_8);
         Log.e(getClass().getName(),received);
-//        MainActivity.instance.runOnUiThread(()-> MainActivity.instance.messageView.setText(received + " " + System.currentTimeMillis()));
+        activity.runOnUiThread(()-> {
+            adapter.add(received);
+            adapter.notifyDataSetChanged();
+        });
     }
 
     @Override

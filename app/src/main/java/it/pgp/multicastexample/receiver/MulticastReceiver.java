@@ -11,14 +11,10 @@ import java.net.MulticastSocket;
 
 public class MulticastReceiver extends GenericReceiver {
 
-    private final Activity activity;
-    private final ArrayAdapter<String> adapter;
     InetAddress group;
 
     public MulticastReceiver(Activity activity, ArrayAdapter<String> adapter) throws IOException {
-        super(new MulticastSocket(11111));
-        this.activity = activity;
-        this.adapter = adapter;
+        super(new MulticastSocket(11111), activity, adapter);
         group = InetAddress.getByName("FF02::1");
         ((MulticastSocket)socket).joinGroup(group);
     }

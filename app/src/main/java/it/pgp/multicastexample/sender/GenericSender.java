@@ -1,9 +1,12 @@
 package it.pgp.multicastexample.sender;
 
+import android.app.Activity;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.security.SecureRandom;
 
 /**
  * Web sources:
@@ -13,10 +16,24 @@ import java.net.DatagramSocket;
 
 public abstract class GenericSender extends Thread {
 
-    final DatagramSocket socket;
+    static final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    SecureRandom rnd = new SecureRandom();
 
-    protected GenericSender(DatagramSocket socket) {
+    String randomString(int len){
+        StringBuilder sb = new StringBuilder( len );
+        for( int i = 0; i < len; i++ )
+            sb.append( AB.charAt( rnd.nextInt(AB.length()) ) );
+        return sb.toString();
+    }
+
+    final DatagramSocket socket;
+    final Activity activity;
+    final ArrayAdapter<String> adapter;
+
+    protected GenericSender(DatagramSocket socket, Activity activity, ArrayAdapter<String> adapter) {
         this.socket = socket;
+        this.activity = activity;
+        this.adapter = adapter;
     }
 
     public abstract void send() throws IOException;

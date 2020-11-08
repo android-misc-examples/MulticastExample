@@ -1,31 +1,29 @@
 package it.pgp.multicastexample.sender;
 
 import android.app.Activity;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.security.SecureRandom;
 
-public class MulticastSender extends GenericSender {
+public class UDPBroadcastSender extends GenericSender {
 
-    InetAddress group;
+    InetAddress address;
 
-    public MulticastSender(Activity activity, ArrayAdapter<String> adapter) throws IOException {
+    public UDPBroadcastSender(Activity activity, ArrayAdapter<String> adapter) throws IOException {
         super(new DatagramSocket(), activity, adapter);
-        group = InetAddress.getByName("FF02::1");
+        socket.setBroadcast(true);
+        address = InetAddress.getByName("255.255.255.255");
     }
 
     @Override
     public void send() throws IOException {
-        String s = "IPv6"+randomString(30);
+        String s = "UDP"+randomString(30);
         byte[] b = s.getBytes();
-        DatagramPacket sendPacket = new DatagramPacket(b, b.length, group, 11111);
+        DatagramPacket sendPacket = new DatagramPacket(b, b.length, address, 11111);
         socket.send(sendPacket);
-        Log.d("MulticastSender", "sent: "+s);
         activity.runOnUiThread(()-> {
             adapter.add(s);
             adapter.notifyDataSetChanged();

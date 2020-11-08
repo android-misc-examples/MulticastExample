@@ -12,13 +12,17 @@ import java.util.ArrayList;
 
 import it.pgp.multicastexample.receiver.GenericReceiver;
 import it.pgp.multicastexample.receiver.MulticastReceiver;
+import it.pgp.multicastexample.receiver.UDPBroadcastReceiver;
 import it.pgp.multicastexample.sender.GenericSender;
 import it.pgp.multicastexample.sender.MulticastSender;
+import it.pgp.multicastexample.sender.UDPBroadcastSender;
 
 public class MainActivity extends AppCompatActivity {
 
     public GenericReceiver receiver;
     public GenericSender sender;
+    public GenericReceiver UDPreceiver;
+    public GenericSender UDPsender;
 
     public ListView received;
     public ArrayAdapter<String> receivedAdapter;
@@ -29,15 +33,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        instance = this;
         setContentView(R.layout.activity_main);
         received = findViewById(R.id.received);
         sent = findViewById(R.id.sent);
 
-        receivedAdapter = new RecentsArrayAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<>());
+        receivedAdapter = new RecentsArrayAdapter(this, R.layout.listitem_received, new ArrayList<>());
         received.setAdapter(receivedAdapter);
 
-        sentAdapter = new RecentsArrayAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<>());
+        sentAdapter = new RecentsArrayAdapter(this, R.layout.listitem_sent, new ArrayList<>());
         sent.setAdapter(sentAdapter);
     }
 
@@ -53,10 +56,9 @@ public class MainActivity extends AppCompatActivity {
         if(sender != null) sender.interrupt();
     }
 
-    public void startReceiver(View view) {
+    public void startIPv6Receiver() {
         if(receiver != null) receiver.interrupt();
         try {
-//            receiver = new UDPBroadcastReceiver();
             receiver = new MulticastReceiver(this, receivedAdapter);
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "Receiver started", Toast.LENGTH_SHORT).show();
     }
 
-    public void startSender(View view) {
+    public void startIPv6Sender() {
         if(sender != null) sender.interrupt();
         try {
             sender = new MulticastSender(this, sentAdapter);
@@ -74,5 +76,44 @@ public class MainActivity extends AppCompatActivity {
         }
         sender.start();
         Toast.makeText(this, "Sender started", Toast.LENGTH_SHORT).show();
+    }
+
+    public void startUDPReceiver() {
+        if(UDPreceiver != null) UDPreceiver.interrupt();
+        try {
+            UDPreceiver = new UDPBroadcastReceiver(this, receivedAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        UDPreceiver.start();
+        Toast.makeText(this, "UDP Receiver started", Toast.LENGTH_SHORT).show();
+    }
+
+    public void startUDPSender() {
+        if(UDPsender != null) UDPsender.interrupt();
+        try {
+            UDPsender = new UDPBroadcastSender(this, sentAdapter);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        UDPsender.start();
+        Toast.makeText(this, "UDP Sender started", Toast.LENGTH_SHORT).show();
+    }
+
+    public void startThread(View v) {
+        switch(v.getId()) {
+            case R.id.startIpv6Sender:
+                startIPv6Sender();
+                break;
+            case R.id.startIpv6Receiver:
+                startIPv6Receiver();
+                break;
+            case R.id.startUdpSender:
+                startUDPSender();
+                break;
+            case R.id.startUdpReceiver:
+                startUDPReceiver();
+                break;
+        }
     }
 }

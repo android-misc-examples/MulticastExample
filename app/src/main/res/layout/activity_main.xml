@@ -6,19 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:onClick="startSender"
-        android:text="Start sender"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp">
 
-    <Button
-        android:onClick="startReceiver"
-        android:text="Start receiver"
+        <Button
+            android:onClick="startThread"
+            android:id="@+id/startIpv6Sender"
+            android:text="IPv6 sender"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:onClick="startThread"
+            android:id="@+id/startIpv6Receiver"
+            android:text="IPv6 receiver"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp">
+
+        <Button
+            android:onClick="startThread"
+            android:id="@+id/startUdpSender"
+            android:text="UDP sender"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:onClick="startThread"
+            android:id="@+id/startUdpReceiver"
+            android:text="UDP receiver"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
 
     <ListView
         android:id="@+id/sent"
