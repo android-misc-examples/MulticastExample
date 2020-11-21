@@ -54,10 +54,19 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         if(receiver != null) receiver.interrupt();
         if(sender != null) sender.interrupt();
+        if(UDPreceiver != null) UDPreceiver.interrupt();
+        if(UDPsender != null) UDPsender.interrupt();
+    }
+
+    public static boolean checkThreadState(Thread t) {
+        return t != null && t.getState() != Thread.State.NEW && t.getState() != Thread.State.TERMINATED;
     }
 
     public void startIPv6Receiver() {
-        if(receiver != null) receiver.interrupt();
+        if(checkThreadState(receiver)) {
+            Toast.makeText(this, "IPv6 receiver already running", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
             receiver = new MulticastReceiver(this, receivedAdapter);
         } catch (Exception e) {
@@ -68,7 +77,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startIPv6Sender() {
-        if(sender != null) sender.interrupt();
+        if(checkThreadState(sender)) {
+            Toast.makeText(this, "IPv6 sender already running", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
             sender = new MulticastSender(this, sentAdapter);
         } catch (Exception e) {
@@ -79,7 +91,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startUDPReceiver() {
-        if(UDPreceiver != null) UDPreceiver.interrupt();
+        if(checkThreadState(UDPreceiver)) {
+            Toast.makeText(this, "UDP receiver already running", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
             UDPreceiver = new UDPBroadcastReceiver(this, receivedAdapter);
         } catch (Exception e) {
@@ -90,7 +105,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startUDPSender() {
-        if(UDPsender != null) UDPsender.interrupt();
+        if(checkThreadState(UDPsender)) {
+            Toast.makeText(this, "UDP sender already running", Toast.LENGTH_SHORT).show();
+            return;
+        }
         try {
             UDPsender = new UDPBroadcastSender(this, sentAdapter);
         } catch (Exception e) {
