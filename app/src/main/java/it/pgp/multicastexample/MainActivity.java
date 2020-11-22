@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        findViewById(R.id.startIpv6Receiver).setEnabled(true);
+        findViewById(R.id.startIpv6Sender).setEnabled(true);
+        findViewById(R.id.startUdpReceiver).setEnabled(true);
+        findViewById(R.id.startUdpSender).setEnabled(true);
     }
 
     @Override
@@ -125,13 +129,16 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.startIpv6Receiver:
                 startIPv6Receiver();
+                findViewById(R.id.startUdpReceiver).setEnabled(false); // cannot bind two UDP sockets on same port
                 break;
             case R.id.startUdpSender:
                 startUDPSender();
                 break;
             case R.id.startUdpReceiver:
                 startUDPReceiver();
+                findViewById(R.id.startIpv6Receiver).setEnabled(false); // cannot bind two UDP sockets on same port
                 break;
         }
+        v.setEnabled(false);
     }
 }
