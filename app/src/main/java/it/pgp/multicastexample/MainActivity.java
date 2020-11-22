@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(receiver != null) receiver.interrupt();
+        if(receiver != null) receiver.cleanup();
         if(sender != null) sender.interrupt();
-        if(UDPreceiver != null) UDPreceiver.interrupt();
+        if(UDPreceiver != null) UDPreceiver.cleanup();
         if(UDPsender != null) UDPsender.interrupt();
     }
 

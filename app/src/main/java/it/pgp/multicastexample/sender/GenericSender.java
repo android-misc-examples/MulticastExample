@@ -54,7 +54,7 @@ public abstract class GenericSender extends Thread {
         }
         finally {
             cleanup();
-            Log.d("GenericSender","Exiting receiver thread now");
+            Log.d("GenericSender","Exiting sender thread now");
         }
     }
 }

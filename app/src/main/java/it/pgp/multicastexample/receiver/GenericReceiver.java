@@ -31,11 +31,8 @@ public abstract class GenericReceiver extends Thread {
                 receive();
             }
         }
-        catch(IOException e) {
+        catch(Exception e) {
             e.printStackTrace();
-        }
-        finally {
-            cleanup();
             Log.d("GenericReceiver","Exiting receiver thread now");
         }
     }
